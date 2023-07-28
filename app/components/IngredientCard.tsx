@@ -21,7 +21,7 @@ function IngredientCard({ data, handleClick, variant, isSelected }: Props) {
         className="w-1/6  h-60   p-4 "
       >
         <div
-          className={`h-full w-full rounded shadow-md hover:border-black hover:cursor-pointer duration-100 border ${
+          className={`h-full w-full rounded shadow-md hover:border-blue-500 hover:border-2 hover:cursor-pointer duration-100 border ${
             isSelected(data)
               ? " border-2 border-sky-500  hover:border-red-500"
               : "border-black"

@@ -1,25 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import meals from "../../constants/ingredients.json";
 import { Meal } from "@/types";
 import IngredientCard from "../components/IngredientCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 function IngredientsList({}: Props) {
+  const router = useRouter();
   const data = meals.meals; // getting array of ingredients
   const [selectedList, setSelectedList] = useState<Meal[]>([] as Meal[]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchList, setSearchList] = useState([] as Meal[]);
+  //   const [ingredientsList, setIngredientsList] = useState([] as string[]);
+  //   const [ingredientsString, setIngredientString] = useState("");
 
-  function removeItem(arr: Meal[], value: Meal) {
-    var index = arr.indexOf(value);
-    if (index > -1) {
-      arr.splice(index, 1);
-    }
-    return arr;
-  }
   const handleClick = (meal: Meal) => {
     if (!selectedList.includes(meal)) {
       setSelectedList((prev) => [...prev, meal]);
@@ -35,23 +33,36 @@ function IngredientsList({}: Props) {
   };
 
   return (
-    <div>
-      <div>
-        <h4>Selected Items</h4>
-        <div className="flex flex-wrap">
-          {selectedList.map((item: Meal, index) => {
-            return (
-              <IngredientCard
-                data={item}
-                variant="2"
-                handleClick={handleClick}
-                key={index}
-                isSelected={isSelected}
-              />
-            );
-          })}
-        </div>
+    <div className="">
+      <div className="pl-2 my-2">
+        <Button
+          onClick={() => {
+            const list = selectedList.map((item) => item.strIngredient);
+            const stringlist = list.join(",");
+            router.push(`/recipe/${stringlist}/`);
+          }}
+        >
+          Generate Recipe
+        </Button>
       </div>
+      {selectedList.length != 0 && (
+        <div>
+          <h4 className="font-medium text-xl ml-4">Selected Items</h4>
+          <div className="flex flex-wrap my-1">
+            {selectedList.map((item: Meal, index) => {
+              return (
+                <IngredientCard
+                  data={item}
+                  variant="2"
+                  handleClick={handleClick}
+                  key={index}
+                  isSelected={isSelected}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
       <form className="ml-2">
         <input
           className="border p-2 border-black rounded-md mx-2"

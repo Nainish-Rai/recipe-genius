@@ -1,15 +1,16 @@
-async function getIngredients() {
-  const res = await fetch("/api/ingredients");
+import IngredientsList from "./containers/IngredientsList";
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
-export default async function Home() {
-  const data = await getIngredients();
-  console.log(data);
-  return <main>{data}</main>;
+export default function Home() {
+  return (
+    <main className="w-full">
+      <div className="w-full max-w-6xl mx-auto">
+        <h2 className=" font-semibold text-4xl  text-center">
+          Select Ingredients
+        </h2>
+        <div>
+          <IngredientsList />
+        </div>
+      </div>
+    </main>
+  );
 }

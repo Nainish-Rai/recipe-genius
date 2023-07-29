@@ -6,7 +6,7 @@ import IngredientCard from "../components/IngredientCard";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-
+import { AnimatePresence, motion } from "framer-motion";
 type Props = {};
 
 function IngredientsList({}: Props) {
@@ -20,9 +20,9 @@ function IngredientsList({}: Props) {
 
   const handleClick = (meal: Meal) => {
     if (!selectedList.includes(meal)) {
-      setSelectedList((prev) => [...prev, meal]);
+      setSelectedList((prev) => [...prev, meal]); //add item if not in list
     } else {
-      setSelectedList((prev) => prev.filter((item) => item != meal));
+      setSelectedList((prev) => prev.filter((item) => item != meal)); //remove if already in list
     }
   };
   const isSelected = (meal: Meal) => {
@@ -45,24 +45,35 @@ function IngredientsList({}: Props) {
           Generate Recipe
         </Button>
       </div>
-      {selectedList.length != 0 && (
-        <div>
-          <h4 className="font-medium text-xl ml-4">Selected Items</h4>
-          <div className="flex flex-wrap my-1">
-            {selectedList.map((item: Meal, index) => {
-              return (
-                <IngredientCard
-                  data={item}
-                  variant="2"
-                  handleClick={handleClick}
-                  key={index}
-                  isSelected={isSelected}
-                />
-              );
-            })}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {selectedList.length != 0 && (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{
+              type: "tween",
+              ease: "easeInOut",
+              duration: 0.25,
+            }}
+          >
+            <h4 className="font-medium text-xl ml-4">Selected Items</h4>
+            <div className="flex flex-wrap my-1 transition-all duration-200">
+              {selectedList.map((item: Meal, index) => {
+                return (
+                  <IngredientCard
+                    data={item}
+                    variant="2"
+                    handleClick={handleClick}
+                    key={index}
+                    isSelected={isSelected}
+                  />
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <form className="ml-2">
         <input
           className="border p-2 border-black rounded-md mx-2"

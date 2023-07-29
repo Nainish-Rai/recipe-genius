@@ -19,7 +19,7 @@ export const POST = async (req: any) => {
         },
         {
           role: "user",
-          content: `i have ${body.ingredients}. Give detailed recipes using these ingredients in JSON format in given schema {recipe_number:{title:string,ingredients:[],instructions:[]}}.Give only JSON response with no extra text`,
+          content: `i have ${body.ingredients}. Give detailed recipes using these ingredients in JSON format in given schema {result:[{title:string,ingredients:[],instructions:[]}]}.Give only JSON response with no extra text`,
         },
       ],
     });

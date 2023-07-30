@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export const POST = async (req: any) => {
   try {
     const body = await req.json();
-    console.log(body.ingredients);
+    console.log(body.ingredients, body.language);
     let headersList = {
       Accept: "*/*",
       Authorization: `Bearer ${process.env.API_KEY}`,
@@ -19,7 +19,7 @@ export const POST = async (req: any) => {
         },
         {
           role: "user",
-          content: `i have ${body.ingredients}. Give detailed recipes using these ingredients in JSON format in given schema {result:[{title:string,ingredients:[],instructions:[]}]}.Give only JSON response with no extra text`,
+          content: `i have ${body.ingredients}. Give detailed recipes using these ingredients in ${body.language} language in JSON format in given schema {result:[{title:string,ingredients:[],instructions:[]}]}.Give only JSON response with no extra text`,
         },
       ],
     });

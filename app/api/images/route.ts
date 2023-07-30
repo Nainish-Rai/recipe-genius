@@ -5,7 +5,7 @@ export const GET = async (req: Request) => {
   console.log(query);
   try {
     const images = await google.image(query, { safe: false });
-    // console.log(images);
+    console.log(images);
     const lessimages = images.slice(0, 4);
     return NextResponse.json(lessimages);
   } catch (error) {
